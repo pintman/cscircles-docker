@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  cscircles:
+    privileged: true
+    build: .
+    volumes:
+      # Content of wordpress will go here
+      - ./data/html:/var/www/html
+    ports:
+      - 8888:80
+    environment:
+      WORDPRESS_DB_PASSWORD: example
+      
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
