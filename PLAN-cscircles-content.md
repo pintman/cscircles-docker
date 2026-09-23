@@ -52,7 +52,7 @@ Quellen: `cemc/cscircles-wp-content` → `README.md`, `install_content.txt`, `pl
 - Alternativ: GitHub-Issue in `cemc/cscircles-wp-content` (öffentlich)
 - Status 2026-09-23: CS Circles laut CEMC-Seite „undergoing maintenance and will be back soon“ → Antwort ggf. verzögert/Inhalte in Überarbeitung.
 
-- [ ] Anfrage absenden (Entwurf unten, Platzhalter `<…>` ausfüllen).
+- [x] Anfrage absenden (Entwurf unten, Platzhalter `<…>` ausfüllen). → Abgeschickt am 2026-09-23 via Kontaktformular (Kategorie „Courseware“).
 - [ ] Antwort/Erlaubnis dokumentieren (Lizenzbedingungen, erlaubte Nutzung, Sprachen).
 
 ### Entwurf
