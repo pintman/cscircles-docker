@@ -2,6 +2,13 @@ FROM wordpress:4.9
 
 MAINTAINER marco@bakera.de
 
+# stretch/buster are EOL: use archive.debian.org
+# (archive signing keys are expired, hence trusted=yes)
+RUN rm -f /etc/apt/sources.list.d/buster.list &&\
+    echo 'deb [trusted=yes] http://archive.debian.org/debian stretch main' > /etc/apt/sources.list &&\
+    echo 'deb [trusted=yes] http://archive.debian.org/debian-security stretch/updates main' >> /etc/apt/sources.list &&\
+    echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99archive
+
 RUN apt-get update &&\
     apt-get install -y git make sudo gcc build-essential wget\
     # libs for Python 3.6
