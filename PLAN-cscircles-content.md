@@ -40,7 +40,48 @@ Quellen: `cemc/cscircles-wp-content` → `README.md`, `install_content.txt`, `pl
 
 - [ ] `import/` ignorieren (XML lizenzpflichtig).
 - [ ] README: `docker-compose up -d --build` → XML optional nach `./import/` → `docker-compose exec cscircles cscircles-setup` → manuell: Polylang Standardsprache en + „Detect browser language“ aus, Menü „Primary Menu English“ zuweisen (per wp-cli, falls einfach).
-- [ ] Hinweis: XML bei CEMC anfragen.
+- [ ] Hinweis: XML bei CEMC anfragen (Kontakt s. u.).
+
+## Lektionen bei CEMC anfragen
+
+`install_content.txt`: „If you are seeking to make a complete clone of the CS Circles site, this requires contacting us for permission." Keine dedizierte CS-Circles-Mail bekannt.
+
+- Kontaktformular: https://cemc.uwaterloo.ca/contact-us → Kategorie „Courseware“
+- Telefon: +1 519 888 4808
+- Post: CEMC, Faculty of Mathematics, University of Waterloo, 200 University Ave. W., Waterloo, ON N2L 3G1, Canada
+- Alternativ: GitHub-Issue in `cemc/cscircles-wp-content` (öffentlich)
+- Status 2026-09-23: CS Circles laut CEMC-Seite „undergoing maintenance and will be back soon“ → Antwort ggf. verzögert/Inhalte in Überarbeitung.
+
+- [ ] Anfrage absenden (Entwurf unten, Platzhalter `<…>` ausfüllen).
+- [ ] Antwort/Erlaubnis dokumentieren (Lizenzbedingungen, erlaubte Nutzung, Sprachen).
+
+### Entwurf
+
+> **Subject:** Request for permission and lesson content export – self-hosted CS Circles instance for classroom use
+>
+> Dear CEMC Courseware team,
+>
+> I am a computer science teacher at <school name, city, Germany> and have been using CS Circles with my students for Python programming. As CS Circles is currently under maintenance, I would like to run a self-hosted copy for my classes so they can continue working with it.
+>
+> I have set up a Docker-based installation following the instructions in your GitHub repository `cemc/cscircles-wp-content` (WordPress with the pybox plugin, the Pybox 2011 child theme, and the safeexec/python3jail sandbox). The platform itself works, but the lessons and exercises are not part of the repository. `install_content.txt` states that a complete clone requires your permission, so I am writing to ask:
+>
+> 1. May I host a copy of the CS Circles lessons for non-commercial educational use at my school?
+> 2. If so, could you provide the WordPress XML export of the lessons and exercises (English and, if available, German)?
+> 3. Are there any licence terms or conditions I should follow (attribution, access restrictions, no public redistribution, etc.)?
+>
+> Planned use:
+> - Audience: about <number> students at my school, access limited to <school network / login>.
+> - Non-commercial, no fees, full attribution to CEMC / University of Waterloo.
+> - The XML export will not be redistributed; it is kept out of the public repository (git-ignored) and only imported locally.
+>
+> I would be happy to share any fixes to the setup (e.g. the Docker configuration) with you if they are useful.
+>
+> Thank you very much for creating CS Circles and for considering my request.
+>
+> Kind regards,
+> Marco Bakera
+> <school name, address>
+> <email>
 
 ## Risiken
 
