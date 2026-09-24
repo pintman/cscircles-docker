@@ -3,7 +3,7 @@
 
 # Plan: CS-Circles-Inhalte reproduzierbar einrichten
 
-Stand: 2026-09-23
+Stand: 2026-09-24
 
 **Problem:** Container läuft, zeigt aber nur leeres WordPress 4.9.8 – README-Schritt 6 (cscircles-wp-content) nie ausgeführt, `pybox`-Plugin fehlt. Laufzeit ok: `safeexec` setuid, `python3jail/bin/python3` + `scratch/` vorhanden, `mysqli`/`mbstring` geladen.
 
@@ -13,28 +13,31 @@ Quellen: `cemc/cscircles-wp-content` → `README.md`, `install_content.txt`, `pl
 
 ## Dockerfile
 
-- [ ] `git clone https://github.com/cemc/cscircles-wp-content.git /usr/src/cscircles-wp-content`, auf Commit pinnen.
-- [ ] wp-cli (`wp-cli.phar` → `/usr/local/bin/wp`) installieren, Version pinnen, PHP-Kompatibilität prüfen.
-- [ ] `COPY cscircles-setup.sh /usr/local/bin/cscircles-setup`.
+- [x] `git clone https://github.com/cemc/cscircles-wp-content.git /usr/src/cscircles-wp-content`, auf Commit pinnen (`396f40d`).
+- [x] wp-cli 2.10.0 (`/usr/local/bin/wp`, `/etc/wp-cli.yml` mit `mod_rewrite`) + `mysql-client`. PHP-Kompatibilität noch ungetestet.
+- [x] `COPY cscircles-setup.sh /usr/local/bin/cscircles-setup`.
 
 ## Neu: `cscircles-setup.sh` (idempotent, root, `wp --allow-root`)
+
+Skript geschrieben, **noch nie ausgeführt** (Build auf arm64-Mac scheitert an `cp /lib64/*` – Altproblem, Ziel ist x86; Test auf x86-Rechner).
 
 - [ ] Auf DB warten (`wp db check` mit Retry).
 - [ ] Fehlt `wp-content/plugins/pybox`: altes wp-content → `wp-content.bak-<datum>`, `/usr/src/cscircles-wp-content` kopieren, `chown -R www-data:www-data`.
 - [ ] `wp-content/uploads` (optional `wp-content/latex`) anlegen, für www-data beschreibbar.
 - [ ] `wp core install` nur falls nicht installiert (URL/Titel/Admin aus ENV).
-- [ ] Plugins `polylang`, `wp-latex`, `wordpress-importer` in WP-4.9-kompatiblen Versionen installieren + aktivieren; `wp plugin activate pybox`.
+- [ ] Plugins `pybox`, `polylang`, `wp-latex`, `wordpress-importer` aktivieren – alle bereits in `cscircles-wp-content` enthalten (Polylang 2.7.4, WP ≥ 4.9), keine Installation nötig.
+- [ ] Polylang: Sprachen en/de per `PLL_Admin_Model` anlegen, `default_lang=en`, `browser=0`.
 - [ ] Pybox 2011 Child Theme aktivieren (Slug aus `themes/`).
 - [ ] `wp option update cscircles_pjail /cscircles/python3jail/`, `wp option update cscircles_psafeexec /cscircles/safeexec/safeexec`.
 - [ ] `wp rewrite structure '/%postname%/' --hard`.
-- [ ] Falls `/import/*.xml` vorhanden und Marker `cscircles_content_imported` fehlt: `wp import <xml> --authors=skip`, Startseite „0: Hello!“ (`show_on_front=page`, `page_on_front`), „Rebuild Databases“ per `wp eval` (Funktion in `admin-make-databases.php` prüfen), Marker setzen.
+- [ ] Falls `/import/*.xml` vorhanden und Marker `cscircles_content_imported` fehlt: `wp import <xml> --authors=skip`, Startseite „0: Hello!“ (`show_on_front=page`, `page_on_front`), „Rebuild Databases“ per `wp eval` (Funktion in `admin-make-databases.php` prüfen), Marker setzen. Achtung: Rebuild bricht ab („Halting“), wenn nicht EN- **und** Nicht-EN-Seiten vorhanden sind → reiner DE-Import reicht nicht.
 - [ ] Verbleibende manuelle Schritte ausgeben.
 
 ## docker-compose.yml
 
-- [ ] `./import:/import:ro` mounten.
-- [ ] ENV: `WORDPRESS_DB_HOST=mysql`, Admin-User/-Passwort/-E-Mail.
-- [ ] `depends_on: [mysql]`.
+- [x] `./import:/import:ro` mounten.
+- [x] ENV: `WORDPRESS_DB_HOST=mysql`, `CSCIRCLES_URL`, `CSCIRCLES_ADMIN_USER/PASSWORD/EMAIL`.
+- [x] `depends_on: [mysql]`; `version: '2'` entfernt.
 
 ## .gitignore / README
 

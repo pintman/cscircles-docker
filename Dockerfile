@@ -15,7 +15,9 @@ RUN apt-get update &&\
     libssl-dev zlib1g-dev libncurses5-dev\
     libncursesw5-dev libreadline-dev libsqlite3-dev\
     libgdbm-dev libdb5.3-dev libbz2-dev libexpat1-dev\
-    liblzma-dev tk-dev &&\
+    liblzma-dev tk-dev\
+    # mysql client for wp-cli (wp db check)
+    mysql-client &&\
     apt-get clean
 
 WORKDIR /cscircles
@@ -44,6 +46,24 @@ RUN mknod -m 0666 ./dev/null c 1 3 &&\
 RUN mkdir scratch &&\
     chown root:www-data scratch &&\
     chmod g+w scratch
+
+# CS Circles wp-content (pybox plugin, theme, bundled plugins, lesson_files)
+ARG CSCIRCLES_WP_CONTENT_REF=396f40d41860222b4da587aef34636ea05ca2927
+RUN git clone https://github.com/cemc/cscircles-wp-content.git /usr/src/cscircles-wp-content &&\
+    cd /usr/src/cscircles-wp-content &&\
+    git checkout -q ${CSCIRCLES_WP_CONTENT_REF} &&\
+    rm -rf .git
+
+# wp-cli
+ARG WP_CLI_VERSION=2.10.0
+RUN curl -fsSL -o /usr/local/bin/wp \
+      https://github.com/wp-cli/wp-cli/releases/download/v${WP_CLI_VERSION}/wp-cli-${WP_CLI_VERSION}.phar &&\
+    chmod +x /usr/local/bin/wp &&\
+    printf 'apache_modules:\n  - mod_rewrite\n' > /etc/wp-cli.yml
+ENV WP_CLI_CONFIG_PATH=/etc/wp-cli.yml
+
+COPY cscircles-setup.sh /usr/local/bin/cscircles-setup
+RUN chmod +x /usr/local/bin/cscircles-setup
 
 VOLUME /var/www/html
 
