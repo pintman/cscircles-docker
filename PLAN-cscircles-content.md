@@ -38,7 +38,7 @@ Quellen: `cemc/cscircles-wp-content` → `README.md`, `install_content.txt`, `pl
 
 ## .gitignore / README
 
-- [ ] `import/` ignorieren (XML lizenzpflichtig).
+- [x] `import/` ignorieren (Inhalte nicht im Repo, nur Skripte).
 - [ ] README: `docker-compose up -d --build` → XML optional nach `./import/` → `docker-compose exec cscircles cscircles-setup` → manuell: Polylang Standardsprache en + „Detect browser language“ aus, Menü „Primary Menu English“ zuweisen (per wp-cli, falls einfach).
 - [ ] Hinweis: XML bei CEMC anfragen (Kontakt s. u.).
 
@@ -82,6 +82,13 @@ Quellen: `cemc/cscircles-wp-content` → `README.md`, `install_content.txt`, `pl
 > Marco Bakera
 > <school name, address>
 > <email>
+
+## Deutsche Lektionen (Teilmenge)
+
+- [x] `tools/html2wxr.py` erzeugt `import/cscircles-de.xml` aus lokal abgelegten `import/sources-de/*.html` (gespeicherte „Page source“-Seiten 2018, CC BY-NC-SA 3.0) – 19 Seiten, Details s. README. Inhalte nicht im Repo.
+- Fehlen: Lektionen 11, 12, 15+; keine Polylang-Verknüpfung zu EN-Seiten.
+- `@file:`-Referenzen zeigen auf `wp-content/lesson_files/` aus `cscircles-wp-content` (alle vorhanden).
+- Setup-Skript: `/import/*.xml` bzw. Startseite „0: Hello!“ → bei nur DE-Import Startseite `0-de`.
 
 ## Risiken
 
